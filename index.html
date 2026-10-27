@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Go On A Date With Me?</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f1f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #4a4a4a;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        .card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            display: none;
+            box-sizing: border-box;
+        }
+        .card.active {
+            display: block;
+        }
+        h2 {
+            color: #d87093;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+        p {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .highlight-text {
+            color: #c2185b;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        /* New Quote Style for Olaf */
+        .quote-block {
+            background-color: #f0faff; /* Light icy blue background */
+            color: #1a4f6e; /* Darker blue text */
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #8bdfff;
+            position: relative;
+        }
+        .quote-block::before {
+            content: "\201C"; /* Left quote mark */
+            font-size: 40px;
+            color: #c5eeff;
+            position: absolute;
+            left: 5px;
+            top: -10px;
+        }
+        .quote-text {
+            display: block;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+        .img-container img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            max-height: 180px;
+            object-fit: cover;
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+            position: relative;
+        }
+        button, .option-card {
+            background-color: #fce4ec;
+            border: 2px solid transparent;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #c2185b;
+            transition: all 0.2s ease;
+            font-size: 15px;
+        }
+        button:hover, .option-card:hover {
+            background-color: #f8bbd0;
+        }
+        .option-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .option-card {
+            background: #fafafa;
+            border: 2px solid #eee;
+            padding: 15px 10px;
+            text-align: center;
+        }
+        .option-card.selected {
+            border-color: #c2185b;
+            background-color: #fce4ec;
+        }
+        input[type="range"] {
+            width: 100%;
+            margin: 20px 0; 
+            accent-color: #c2185b;
+        }
+        .next-btn {
+            width: 100%;
+            background-color: #c2185b;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .next-btn:hover {
+            background-color: #ad1457;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Step 1: Invitation (unchanged) -->
+    <div id="step-1" class="card active">
+        <h2>YOU'VE BEEN INVITED</h2>
+        <p>Will you go on a date with me? 💖</p>
+        <div class="img-container">
+            <img src="https://media.giphy.com/media/2bUpP71bbVnZ3x3lgQ/giphy.gif" alt="Cute invite GIF">
+        </div>
+        <div class="btn-group">
+            <button onclick="nextStep(2)" style="background-color: #c2185b; color: white;">Yes</button>
+            <button id="no-btn" onmouseover="moveNoButton()" onclick="moveNoButton()">No</button>
+        </div>
+    </div>
+
+    <!-- Step 2: Custom Yes Response with Olaf -->
+    <div id="step-2" class="card">
+        <h2>YAYYY! 🥶✨</h2>
+        <p class="highlight-text">"You want a lover call Cold 🥶 🥶 and let him give you a chilled website asap"</p>
+        
+        <!-- Updated Image Container for Olaf -->
+        <div class="img-container">
+            <!-- Link to the image of Olaf provided -->
+            <img src="https://m.media-amazon.com/images/M/MV5BMjA5OTgxODkzMF5BMl5BanBnXkFtZTgwMDUyMTUyMjI@._V1_.jpg" alt="Olaf from Frozen 2">
+        </div>
+
+        <!-- Styled Quote Block -->
+        <div class="quote-block">
+            <span class="quote-text">I'll have all the answers when I'm older.</span>
+        </div>
+
+        <button class="next-btn" onclick="nextStep(3)">Let's Plan It! 🔥</button>
+    </div>
+
+    <!-- Steps 3-6 (unchanged) -->
+    <div id="step-3" class="card">
+        <h2>When are you free?</h2>
+        <p>Pick the moment that works best.</p>
+        <div class="option-grid">
+            <div class="option-card" onclick="selectOption(this, 'date')">This Friday</div>
+            <div class="option-card" onclick="selectOption(this, 'date')">This Saturday</div>
+            <div class="option-card" onclick="selectOption(this, 'date')">This Sunday</div>
+        </div>
+        <p style="font-size: 13px; margin-bottom: 5px;">Pick a time:</p>
+        <input type="time" id="meeting-time" value="19:30" style="width: 100%; padding: 10px; border-radius: 10px; border: 2px solid #eee; margin-bottom: 20px; box-sizing: border-box; font-size: 15px;">
+        <button class="next-btn" onclick="nextStep(4)">Next</button>
+    </div>
+
+    <div id="step-4" class="card">
+        <h2>What are you feeling?</h2>
+        <p>Pick your food vibe.</p>
+        <div class="option-grid">
+            <div class="option-card" onclick="selectOption(this, 'food')">🍣 Sushi</div>
+            <div class="option-card" onclick="selectOption(this, 'food')">🌮 Tacos</div>
+            <div class="option-card" onclick="selectOption(this, 'food')">🍕 Pizza</div>
+            <div class="option-card" onclick="selectOption(this, 'food')">🍝 Pasta</div>
+        </div>
+        <button class="next-btn" onclick="nextStep(5)">Next</button>
+    </div>
+
+    <div id="step-5" class="card">
+        <h2>How excited are you?</h2>
+        <p>Rate your excitement!</p>
+        <div class="img-container">
+            <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Pikachu excited GIF">
+        </div>
+        <input type="range" id="excitement" min="1" max="10" value="10" oninput="updateExcitement(this.value)">
+        <p>Your excitement: <span id="excitement-val">10</span>/10 🔥</p>
+        <button class="next-btn" onclick="nextStep(6)">Next</button>
+    </div>
+
+    <div id="step-6" class="card">
+        <h2>Almost there!</h2>
+        <p>Here's your picks — tap confirm to finalize!</p>
+        <div style="text-align: left; background: #fafafa; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 14px;">
+            <p style="margin: 8px 0;">📅 <strong>Date:</strong> <span id="summary-date">This Saturday</span></p>
+            <p style="margin: 8px 0;">⏰ <strong>Time:</strong> <span id="summary-time">19:30</span></p>
+            <p style="margin: 8px 0;">🍽️ <strong>Food Vibe:</strong> <span id="summary-food">Sushi</span></p>
+            <p style="margin: 8px 0;">💖 <strong>Excitement:</strong> <span id="summary-excitement">10/10</span></p>
+        </div>
+        <button class="next-btn" onclick="alert('Confirmed! Cold got your date request 🥶❤️')">Confirm & Send 🚀</button>
+    </div>
+
+    <script>
+        let formData = { date: "This Saturday", food: "Sushi" };
+
+        function nextStep(stepNumber) {
+            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
+            document.getElementById(`step-${stepNumber}`).classList.add('active');
+            
+            if(stepNumber === 6) {
+                const timeInput = document.getElementById('meeting-time').value;
+                if(timeInput) document.getElementById('summary-time').innerText = timeInput;
+                document.getElementById('summary-date').innerText = formData.date;
+                document.getElementById('summary-food').innerText = formData.food;
+                document.getElementById('summary-excitement').innerText = document.getElementById('excitement').value + '/10';
+            }
+        }
+
+        function selectOption(element, category) {
+            element.parentElement.querySelectorAll('.option-card').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            formData[category] = element.innerText;
+        }
+
+        function updateExcitement(val) {
+            document.getElementById('excitement-val').innerText = val;
+        }
+
+        function moveNoButton() {
+            const btn = document.getElementById('no-btn');
+            const x = Math.random() * 120 - 60;
+            const y = Math.random() * 120 - 60;
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+    </script>
+</body>
+</html>
