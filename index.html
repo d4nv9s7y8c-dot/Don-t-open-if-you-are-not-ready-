@@ -47,10 +47,9 @@
             font-weight: bold;
             font-size: 16px;
         }
-        /* New Quote Style for Olaf */
         .quote-block {
-            background-color: #f0faff; /* Light icy blue background */
-            color: #1a4f6e; /* Darker blue text */
+            background-color: #f0faff;
+            color: #1a4f6e;
             padding: 15px;
             border-radius: 12px;
             margin-bottom: 20px;
@@ -58,7 +57,7 @@
             position: relative;
         }
         .quote-block::before {
-            content: "\201C"; /* Left quote mark */
+            content: "\201C";
             font-size: 40px;
             color: #c5eeff;
             position: absolute;
@@ -74,7 +73,7 @@
             width: 100%;
             border-radius: 12px;
             margin-bottom: 20px;
-            max-height: 180px;
+            max-height: 220px;
             object-fit: cover;
         }
         .btn-group {
@@ -136,7 +135,7 @@
 </head>
 <body>
 
-    <!-- Step 1: Invitation (unchanged) -->
+    <!-- Step 1: Invitation -->
     <div id="step-1" class="card active">
         <h2>YOU'VE BEEN INVITED</h2>
         <p>Will you go on a date with me? 💖</p>
@@ -144,7 +143,7 @@
             <img src="https://media.giphy.com/media/2bUpP71bbVnZ3x3lgQ/giphy.gif" alt="Cute invite GIF">
         </div>
         <div class="btn-group">
-            <button onclick="nextStep(2)" style="background-color: #c2185b; color: white;">Yes</button>
+            <button onclick="handleYes()" style="background-color: #c2185b; color: white;">Yes</button>
             <button id="no-btn" onmouseover="moveNoButton()" onclick="moveNoButton()">No</button>
         </div>
     </div>
@@ -154,13 +153,10 @@
         <h2>YAYYY! 🥶✨</h2>
         <p class="highlight-text">"You want a lover call Cold 🥶 🥶 and let him give you a chilled website asap"</p>
         
-        <!-- Updated Image Container for Olaf -->
         <div class="img-container">
-            <!-- Link to the image of Olaf provided -->
-            <img src="https://m.media-amazon.com/images/M/MV5BMjA5OTgxODkzMF5BMl5BanBnXkFtZTgwMDUyMTUyMjI@._V1_.jpg" alt="Olaf from Frozen 2">
+            <img src="https://media.giphy.com/media/YoWOIjn72JKIbBzGlw/giphy.gif" alt="Olaf Frozen GIF">
         </div>
 
-        <!-- Styled Quote Block -->
         <div class="quote-block">
             <span class="quote-text">I'll have all the answers when I'm older.</span>
         </div>
@@ -168,7 +164,7 @@
         <button class="next-btn" onclick="nextStep(3)">Let's Plan It! 🔥</button>
     </div>
 
-    <!-- Steps 3-6 (unchanged) -->
+    <!-- Step 3: Date & Time -->
     <div id="step-3" class="card">
         <h2>When are you free?</h2>
         <p>Pick the moment that works best.</p>
@@ -182,6 +178,7 @@
         <button class="next-btn" onclick="nextStep(4)">Next</button>
     </div>
 
+    <!-- Step 4: Food Preference -->
     <div id="step-4" class="card">
         <h2>What are you feeling?</h2>
         <p>Pick your food vibe.</p>
@@ -194,6 +191,7 @@
         <button class="next-btn" onclick="nextStep(5)">Next</button>
     </div>
 
+    <!-- Step 5: Excitement Slider -->
     <div id="step-5" class="card">
         <h2>How excited are you?</h2>
         <p>Rate your excitement!</p>
@@ -205,6 +203,7 @@
         <button class="next-btn" onclick="nextStep(6)">Next</button>
     </div>
 
+    <!-- Step 6: Final Summary -->
     <div id="step-6" class="card">
         <h2>Almost there!</h2>
         <p>Here's your picks — tap confirm to finalize!</p>
@@ -219,6 +218,21 @@
 
     <script>
         let formData = { date: "This Saturday", food: "Sushi" };
+
+        function speakText() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Clear any queued audio
+                const msg = new SpeechSynthesisUtterance("I'll have all the answers when I'm older");
+                msg.pitch = 1.2; // Playful Olaf tone
+                msg.rate = 0.95;
+                window.speechSynthesis.speak(msg);
+            }
+        }
+
+        function handleYes() {
+            nextStep(2);
+            speakText(); // Triggers voice speech when 'Yes' is clicked
+        }
 
         function nextStep(stepNumber) {
             document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
