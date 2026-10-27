@@ -154,7 +154,8 @@
         <p class="highlight-text">"You want a lover call Cold 🥶 🥶 and let him give you a chilled website asap"</p>
         
         <div class="img-container">
-            <img src="https://media.giphy.com/media/YoWOIjn72JKIbBzGlw/giphy.gif" alt="Olaf Frozen GIF">
+            <!-- Stable Olaf image link -->
+            <img src="https://images.unsplash.com/photo-1543332164-6e82f355badc?auto=format&fit=crop&w=600&q=80" alt="Winter snow landscape">
         </div>
 
         <div class="quote-block">
@@ -221,9 +222,10 @@
 
         function speakText() {
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // Clear any queued audio
-                const msg = new SpeechSynthesisUtterance("I'll have all the answers when I'm older");
-                msg.pitch = 1.2; // Playful Olaf tone
+                window.speechSynthesis.cancel();
+                // Speaks your exact custom line out loud!
+                const msg = new SpeechSynthesisUtterance("You want a lover call Cold, and let him give you a chilled website asap");
+                msg.pitch = 1.1; 
                 msg.rate = 0.95;
                 window.speechSynthesis.speak(msg);
             }
@@ -231,7 +233,7 @@
 
         function handleYes() {
             nextStep(2);
-            speakText(); // Triggers voice speech when 'Yes' is clicked
+            speakText(); // Triggers the voice to talk when Yes is clicked
         }
 
         function nextStep(stepNumber) {
