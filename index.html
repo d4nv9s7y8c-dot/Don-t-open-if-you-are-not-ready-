@@ -47,34 +47,18 @@
             font-weight: bold;
             font-size: 16px;
         }
-        .quote-block {
-            background-color: #f0faff;
-            color: #1a4f6e;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 4px solid #8bdfff;
-            position: relative;
-        }
-        .quote-block::before {
-            content: "\201C";
-            font-size: 40px;
-            color: #c5eeff;
-            position: absolute;
-            left: 5px;
-            top: -10px;
-        }
-        .quote-text {
-            display: block;
-            margin-bottom: 8px;
-            font-style: italic;
-        }
-        .img-container img {
+        .media-container {
             width: 100%;
             border-radius: 12px;
+            overflow: hidden;
             margin-bottom: 20px;
+            background: #000;
+        }
+        .media-container img, .media-container video {
+            width: 100%;
             max-height: 220px;
             object-fit: cover;
+            display: block;
         }
         .btn-group {
             display: flex;
@@ -139,7 +123,7 @@
     <div id="step-1" class="card active">
         <h2>YOU'VE BEEN INVITED</h2>
         <p>Will you go on a date with me? 💖</p>
-        <div class="img-container">
+        <div class="media-container">
             <img src="https://media.giphy.com/media/2bUpP71bbVnZ3x3lgQ/giphy.gif" alt="Cute invite GIF">
         </div>
         <div class="btn-group">
@@ -148,18 +132,17 @@
         </div>
     </div>
 
-    <!-- Step 2: Custom Yes Response with Olaf -->
+    <!-- Step 2: Custom Yes Response with Olaf Video -->
     <div id="step-2" class="card">
         <h2>YAYYY! 🥶✨</h2>
         <p class="highlight-text">"You want a lover call Cold 🥶 🥶 and let him give you a chilled website asap"</p>
         
-        <div class="img-container">
-            <!-- Stable Olaf image link -->
-            <img src="https://images.unsplash.com/photo-1543332164-6e82f355badc?auto=format&fit=crop&w=600&q=80" alt="Winter snow landscape">
-        </div>
-
-        <div class="quote-block">
-            <span class="quote-text">I'll have all the answers when I'm older.</span>
+        <div class="media-container">
+            <!-- Embedded Olaf Video Clip that talks/sings -->
+            <video id="olaf-video" controls playsinline>
+                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
 
         <button class="next-btn" onclick="nextStep(3)">Let's Plan It! 🔥</button>
@@ -196,7 +179,7 @@
     <div id="step-5" class="card">
         <h2>How excited are you?</h2>
         <p>Rate your excitement!</p>
-        <div class="img-container">
+        <div class="media-container">
             <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Pikachu excited GIF">
         </div>
         <input type="range" id="excitement" min="1" max="10" value="10" oninput="updateExcitement(this.value)">
@@ -220,23 +203,24 @@
     <script>
         let formData = { date: "This Saturday", food: "Sushi" };
 
-        function speakText() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                // Speaks your exact custom line out loud!
-                const msg = new SpeechSynthesisUtterance("You want a lover call Cold, and let him give you a chilled website asap");
-                msg.pitch = 1.1; 
-                msg.rate = 0.95;
-                window.speechSynthesis.speak(msg);
+        function handleYes() {
+            nextStep(2);
+            // Automatically plays the video when she taps Yes
+            const video = document.getElementById('olaf-video');
+            if(video) {
+                video.play().catch(error => {
+                    console.log("Autoplay blocked, user can tap play controls.");
+                });
             }
         }
 
-        function handleYes() {
-            nextStep(2);
-            speakText(); // Triggers the voice to talk when Yes is clicked
-        }
-
         function nextStep(stepNumber) {
+            // Pause video if leaving step 2
+            const video = document.getElementById('olaf-video');
+            if(video && stepNumber !== 2) {
+                video.pause();
+            }
+
             document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
             document.getElementById(`step-${stepNumber}`).classList.add('active');
             
