@@ -1,254 +1,402 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Go On A Date With Me?</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f7f1f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            color: #4a4a4a;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-        .card {
-            background: white;
-            padding: 30px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            width: 100%;
-            max-width: 380px;
-            text-align: center;
-            display: none;
-            box-sizing: border-box;
-        }
-        .card.active {
-            display: block;
-        }
-        h2 {
-            color: #d87093;
-            margin-bottom: 10px;
-            font-size: 22px;
-        }
-        p {
-            font-size: 15px;
-            color: #666;
-            margin-bottom: 20px;
-            line-height: 1.4;
-        }
-        .highlight-text {
-            color: #c2185b;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        .media-container {
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            background: #000;
-        }
-        .media-container img, .media-container video {
-            width: 100%;
-            max-height: 220px;
-            object-fit: cover;
-            display: block;
-        }
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 20px;
-            position: relative;
-        }
-        button, .option-card {
-            background-color: #fce4ec;
-            border: 2px solid transparent;
-            padding: 12px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            color: #c2185b;
-            transition: all 0.2s ease;
-            font-size: 15px;
-        }
-        button:hover, .option-card:hover {
-            background-color: #f8bbd0;
-        }
-        .option-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .option-card {
-            background: #fafafa;
-            border: 2px solid #eee;
-            padding: 15px 10px;
-            text-align: center;
-        }
-        .option-card.selected {
-            border-color: #c2185b;
-            background-color: #fce4ec;
-        }
-        input[type="range"] {
-            width: 100%;
-            margin: 20px 0; 
-            accent-color: #c2185b;
-        }
-        .next-btn {
-            width: 100%;
-            background-color: #c2185b;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .next-btn:hover {
-            background-color: #ad1457;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will You Go On A Date With Me?</title>
+  <style>
+    :root {
+      --bg: #f8dce2;
+      --card: #fff7f8;
+      --border: #e6b8c2;
+      --pink: #e56b88;
+      --pink-dark: #c94c6b;
+      --text: #3b232a;
+      --muted: #7a555f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #ffe9ee, var(--bg));
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 24px;
+      padding: 28px 24px;
+      box-shadow: 0 18px 40px rgba(160, 72, 95, 0.14);
+      text-align: center;
+      position: relative;
+    }
+
+    .step {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.45rem;
+      margin-bottom: 8px;
+    }
+
+    p.sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    .media-box {
+      width: 170px;
+      height: 170px;
+      margin: 0 auto 20px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5rem;
+    }
+
+    .media-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 16px;
+      min-height: 54px;
+      position: relative;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 22px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .btn-yes {
+      background: var(--pink);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(229, 107, 136, 0.35);
+    }
+
+    .btn-yes:hover {
+      background: var(--pink-dark);
+    }
+
+    .btn-no {
+      background: #f1dfe3;
+      color: var(--text);
+      position: relative;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      font-size: 0.98rem;
+    }
+
+    .vibe-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 16px 0 20px;
+    }
+
+    .vibe-card {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .vibe-card:hover {
+      border-color: var(--pink);
+      transform: translateY(-2px);
+    }
+
+    .vibe-card.selected {
+      border-color: var(--pink);
+      background: #ffe8ee;
+      box-shadow: 0 0 0 2px rgba(229, 107, 136, 0.2);
+    }
+
+    .vibe-emoji {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .vibe-label {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .summary-box {
+      background: #fff;
+      border: 1.5px dashed var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin: 16px 0 20px;
+      text-align: left;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .ps-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .fee-box {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      margin: 16px 0;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--pink-dark);
+      margin: 8px 0;
+    }
+
+    .full-width {
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-
-    <!-- Step 1: Invitation -->
-    <div id="step-1" class="card active">
-        <h2>YOU'VE BEEN INVITED</h2>
-        <p>Will you go on a date with me? 💖</p>
-        <div class="media-container">
-            <img src="https://media.giphy.com/media/2bUpP71bbVnZ3x3lgQ/giphy.gif" alt="Cute invite GIF">
-        </div>
-        <div class="btn-group">
-            <button onclick="handleYes()" style="background-color: #c2185b; color: white;">Yes</button>
-            <button id="no-btn" onmouseover="moveNoButton()" onclick="moveNoButton()">No</button>
-        </div>
+  <div class="card">
+    <!-- STEP 1: Date Proposal -->
+    <div class="step active" id="step-1">
+      <div class="media-box">🐶</div>
+      <h1>Will you go on a date with me? 🌸</h1>
+      <p class="sub">Choose wisely...</p>
+      <div class="btn-row" id="proposal-arena">
+        <button class="btn-yes" id="yes-btn">YES ♥</button>
+        <button class="btn-no" id="no-btn">NO</button>
+      </div>
     </div>
 
-    <!-- Step 2: Custom Yes Response with Olaf Video -->
-    <div id="step-2" class="card">
-        <h2>YAYYY! 🥶✨</h2>
-        <p class="highlight-text">"You want a lover call Cold 🥶 🥶 and let him give you a chilled website asap"</p>
-        
-        <div class="media-container">
-            <!-- Embedded Olaf Video Clip that talks/sings -->
-            <video id="olaf-video" controls playsinline>
-                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-
-        <button class="next-btn" onclick="nextStep(3)">Let's Plan It! 🔥</button>
+    <!-- STEP 2: Shocked Yes -->
+    <div class="step" id="step-2">
+      <div class="media-box"> sponge bob -> 😅</div>
+      <h2>WAIT YOU ACTUALLY SAID YES?? 😅</h2>
+      <p class="sub">I was so ready for you to say no 💀</p>
+      <button class="btn-yes full-width" onclick="goToStep(3)">okay okay! →</button>
     </div>
 
-    <!-- Step 3: Date & Time -->
-    <div id="step-3" class="card">
-        <h2>When are you free?</h2>
-        <p>Pick the moment that works best.</p>
-        <div class="option-grid">
-            <div class="option-card" onclick="selectOption(this, 'date')">This Friday</div>
-            <div class="option-card" onclick="selectOption(this, 'date')">This Saturday</div>
-            <div class="option-card" onclick="selectOption(this, 'date')">This Sunday</div>
-        </div>
-        <p style="font-size: 13px; margin-bottom: 5px;">Pick a time:</p>
-        <input type="time" id="meeting-time" value="19:30" style="width: 100%; padding: 10px; border-radius: 10px; border: 2px solid #eee; margin-bottom: 20px; box-sizing: border-box; font-size: 15px;">
-        <button class="next-btn" onclick="nextStep(4)">Next</button>
+    <!-- STEP 3: Date & Time -->
+    <div class="step" id="step-3">
+      <h2>So... when are you free?</h2>
+      <p class="sub">Pick a day and time that works for you</p>
+
+      <div class="form-group">
+        <label for="date-input">Pick a Day 📅</label>
+        <input type="date" id="date-input" />
+      </div>
+
+      <div class="form-group">
+        <label for="time-input">Pick a Time? ⏰</label>
+        <select id="time-input">
+          <option value="1:00 PM">1:00 PM</option>
+          <option value="1:30 PM">1:30 PM</option>
+          <option value="2:00 PM">2:00 PM</option>
+          <option value="2:30 PM">2:30 PM</option>
+          <option value="3:00 PM">3:00 PM</option>
+          <option value="4:00 PM">4:00 PM</option>
+          <option value="6:00 PM" selected>6:00 PM</option>
+          <option value="7:00 PM">7:00 PM</option>
+        </select>
+      </div>
+
+      <button class="btn-yes full-width" onclick="goToStep(4)">set the date! ♥</button>
     </div>
 
-    <!-- Step 4: Food Preference -->
-    <div id="step-4" class="card">
-        <h2>What are you feeling?</h2>
-        <p>Pick your food vibe.</p>
-        <div class="option-grid">
-            <div class="option-card" onclick="selectOption(this, 'food')">🍣 Sushi</div>
-            <div class="option-card" onclick="selectOption(this, 'food')">🌮 Tacos</div>
-            <div class="option-card" onclick="selectOption(this, 'food')">🍕 Pizza</div>
-            <div class="option-card" onclick="selectOption(this, 'food')">🍝 Pasta</div>
+    <!-- STEP 4: Food Vibe -->
+    <div class="step" id="step-4">
+      <h2>What are we feeling? 🍽️✨</h2>
+      <p class="sub">Pick your vibe.</p>
+
+      <div class="vibe-grid">
+        <div class="vibe-card" data-vibe="Sushi" onclick="selectVibe(this)">
+          <span class="vibe-emoji">🍣</span>
+          <span class="vibe-label">Sushi</span>
         </div>
-        <button class="next-btn" onclick="nextStep(5)">Next</button>
+        <div class="vibe-card" data-vibe="Burgers" onclick="selectVibe(this)">
+          <span class="vibe-emoji">🍔</span>
+          <span class="vibe-label">Burgers</span>
+        </div>
+        <div class="vibe-card" data-vibe="Tacos" onclick="selectVibe(this)">
+          <span class="vibe-emoji">🌮</span>
+          <span class="vibe-label">Tacos</span>
+        </div>
+        <div class="vibe-card" data-vibe="Ramen" onclick="selectVibe(this)">
+          <span class="vibe-emoji">🍜</span>
+          <span class="vibe-label">Ramen</span>
+        </div>
+      </div>
+
+      <button class="btn-yes full-width" onclick="confirmDetails()">lock it in →</button>
     </div>
 
-    <!-- Step 5: Excitement Slider -->
-    <div id="step-5" class="card">
-        <h2>How excited are you?</h2>
-        <p>Rate your excitement!</p>
-        <div class="media-container">
-            <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Pikachu excited GIF">
-        </div>
-        <input type="range" id="excitement" min="1" max="10" value="10" oninput="updateExcitement(this.value)">
-        <p>Your excitement: <span id="excitement-val">10</span>/10 🔥</p>
-        <button class="next-btn" onclick="nextStep(6)">Next</button>
+    <!-- STEP 5: Final Confirmation -->
+    <div class="step" id="step-5">
+      <h2>glad you didn't say no. be ready by <span id="final-time">6</span>, i'm coming to get you 🛻</h2>
+      <div class="summary-box" id="date-summary"></div>
+      <p class="ps-note">P.S. normal people text. I made a whole webpage for you instead. no big deal.</p>
+      <button class="btn-yes full-width" onclick="goToStep(6)">ok I accept 💌</button>
     </div>
 
-    <!-- Step 6: Final Summary -->
-    <div id="step-6" class="card">
-        <h2>Almost there!</h2>
-        <p>Here's your picks — tap confirm to finalize!</p>
-        <div style="text-align: left; background: #fafafa; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 14px;">
-            <p style="margin: 8px 0;">📅 <strong>Date:</strong> <span id="summary-date">This Saturday</span></p>
-            <p style="margin: 8px 0;">⏰ <strong>Time:</strong> <span id="summary-time">19:30</span></p>
-            <p style="margin: 8px 0;">🍽️ <strong>Food Vibe:</strong> <span id="summary-food">Sushi</span></p>
-            <p style="margin: 8px 0;">💖 <strong>Excitement:</strong> <span id="summary-excitement">10/10</span></p>
-        </div>
-        <button class="next-btn" onclick="alert('Confirmed! Cold got your date request 🥶❤️')">Confirm & Send 🚀</button>
+    <!-- STEP 6: Joke "One Small Fee" Screen -->
+    <div class="step" id="step-6">
+      <h2>one small fee...</h2>
+      <div class="fee-box">
+        <p class="sub" style="margin-bottom: 6px;">Date Processing &amp; Vibe Fee</p>
+        <div class="price">$0.00</div>
+        <p class="sub" style="margin-bottom: 0;">Just bring good energy (and maybe share fries).</p>
+      </div>
+      <button class="btn-yes full-width" onclick="goToStep(1)">play again</button>
     </div>
+  </div>
 
-    <script>
-        let formData = { date: "This Saturday", food: "Sushi" };
+  <script>
+    const state = {
+      date: "",
+      time: "6:00 PM",
+      vibe: "Ramen"
+    };
 
-        function handleYes() {
-            nextStep(2);
-            // Automatically plays the video when she taps Yes
-            const video = document.getElementById('olaf-video');
-            if(video) {
-                video.play().catch(error => {
-                    console.log("Autoplay blocked, user can tap play controls.");
-                });
-            }
-        }
+    // Set default date to tomorrow
+    const dateInput = document.getElementById("date-input");
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.value = tomorrow.toISOString().split("T")[0];
 
-        function nextStep(stepNumber) {
-            // Pause video if leaving step 2
-            const video = document.getElementById('olaf-video');
-            if(video && stepNumber !== 2) {
-                video.pause();
-            }
+    function goToStep(stepNumber) {
+      document.querySelectorAll(".step").forEach((el) => el.classList.remove("active"));
+      document.getElementById(`step-${stepNumber}`).classList.add("active");
+    }
 
-            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
-            document.getElementById(`step-${stepNumber}`).classList.add('active');
-            
-            if(stepNumber === 6) {
-                const timeInput = document.getElementById('meeting-time').value;
-                if(timeInput) document.getElementById('summary-time').innerText = timeInput;
-                document.getElementById('summary-date').innerText = formData.date;
-                document.getElementById('summary-food').innerText = formData.food;
-                document.getElementById('summary-excitement').innerText = document.getElementById('excitement').value + '/10';
-            }
-        }
+    // Dodging NO button behavior
+    const noBtn = document.getElementById("no-btn");
+    const yesBtn = document.getElementById("yes-btn");
+    let yesScale = 1;
 
-        function selectOption(element, category) {
-            element.parentElement.querySelectorAll('.option-card').forEach(el => el.classList.remove('selected'));
-            element.classList.add('selected');
-            formData[category] = element.innerText;
-        }
+    function dodgeNoButton() {
+      const maxX = 130;
+      const maxY = 70;
+      const randX = Math.floor(Math.random() * (maxX * 2)) - maxX;
+      const randY = Math.floor(Math.random() * (maxY * 2)) - maxY;
 
-        function updateExcitement(val) {
-            document.getElementById('excitement-val').innerText = val;
-        }
+      noBtn.style.transform = `translate(${randX}px, ${randY}px)`;
+      yesScale = Math.min(yesScale + 0.08, 1.45);
+      yesBtn.style.transform = `scale(${yesScale})`;
+    }
 
-        function moveNoButton() {
-            const btn = document.getElementById('no-btn');
-            const x = Math.random() * 120 - 60;
-            const y = Math.random() * 120 - 60;
-            btn.style.transform = `translate(${x}px, ${y}px)`;
-        }
-    </script>
+    noBtn.addEventListener("mouseenter", dodgeNoButton);
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      dodgeNoButton();
+    });
+    noBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      dodgeNoButton();
+    });
+
+    yesBtn.addEventListener("click", () => {
+      goToStep(2);
+    });
+
+    function selectVibe(cardEl) {
+      document.querySelectorAll(".vibe-card").forEach((c) => c.classList.remove("selected"));
+      cardEl.classList.add("selected");
+      state.vibe = cardEl.dataset.vibe;
+    }
+
+    // Pre-select Ramen by default
+    document.querySelector('.vibe-card[data-vibe="Ramen"]').classList.add("selected");
+
+    function confirmDetails() {
+      state.date = dateInput.value || "Soon";
+      state.time = document.getElementById("time-input").value;
+
+      document.getElementById("final-time").textContent = state.time;
+      document.getElementById("date-summary").innerHTML = `
+        <strong>📅 Day:</strong> ${state.date}<br>
+        <strong>⏰ Time:</strong> ${state.time}<br>
+        <strong>🍽️ Food Vibe:</strong> ${state.vibe}
+      `;
+      goToStep(5);
+    }
+  </script>
 </body>
 </html>
